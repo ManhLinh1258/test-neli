@@ -5,19 +5,17 @@ function TodoForm(props) {
 
   const inputRef = useRef(null);
 
-  useEffect(() => {
-    inputRef.current.focus();
-  });
-
   const handleChange = (e) => {
     setInput(e.target.value);
   };
 
   const handleSubmit = (e) => {
+    // if (!input) {
+    //   return;
+    // }
     e.preventDefault();
-
     props.onSubmit({
-      id: Math.floor(Math.random() * 10000),
+      id: Math.floor(Math.random() * 1000),
       text: input,
     });
     setInput("");
@@ -27,17 +25,23 @@ function TodoForm(props) {
     <form onSubmit={handleSubmit} className="todo-form">
       {props.edit ? (
         <>
-          <input
-            placeholder="Chỉnh sửa"
-            value={input}
-            onChange={handleChange}
-            name="text"
-            ref={inputRef}
-            className="todo-input edit"
-          />
-          <button onClick={handleSubmit} className="todo-button edit">
-            Chỉnh sửa
-          </button>
+          <div>
+            <input
+              placeholder="Chỉnh sửa"
+              value={input}
+              onChange={handleChange}
+              name="text"
+              className="todo-input edit"
+            />
+            <button onClick={handleSubmit} className="todo-button edit">
+              Chỉnh sửa
+            </button>
+            {props.todos
+              .filter((e) => e.id !== props.edit.id)
+              .map((f) => (
+                <input value={f?.text} className="todo-input edit" />
+              ))}
+          </div>
         </>
       ) : (
         <>
@@ -47,7 +51,6 @@ function TodoForm(props) {
             onChange={handleChange}
             name="text"
             className="todo-input"
-            ref={inputRef}
           />
           <button onClick={handleSubmit} className="todo-button">
             Thêm công việc

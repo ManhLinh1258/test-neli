@@ -5,6 +5,10 @@ function TodoForm(props) {
 
   const inputRef = useRef(null);
 
+  useEffect(() => {
+    inputRef.current.focus();
+  });
+
   const handleChange = (e) => {
     setInput(e.target.value);
   };
@@ -32,15 +36,16 @@ function TodoForm(props) {
               onChange={handleChange}
               name="text"
               className="todo-input edit"
+              ref={inputRef}
             />
             <button onClick={handleSubmit} className="todo-button edit">
               Chỉnh sửa
             </button>
-            {props.todos
+            {/* {props.todos
               .filter((e) => e.id !== props.edit.id)
               .map((f) => (
                 <input value={f?.text} className="todo-input edit" />
-              ))}
+              ))} */}
           </div>
         </>
       ) : (
@@ -51,6 +56,7 @@ function TodoForm(props) {
             onChange={handleChange}
             name="text"
             className="todo-input"
+            ref={inputRef}
           />
           <button onClick={handleSubmit} className="todo-button">
             Thêm công việc
